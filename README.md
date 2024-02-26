@@ -9,3 +9,7 @@ Desktop app created to communicate with ollama model locally
 ## Packages
 
 - PySide6
+
+## Progress
+
+[ ] Learning PyQT
