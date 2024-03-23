@@ -16,8 +16,13 @@ class Window(QWidget):
         chat_window_layout.setContentsMargins(0, 0, 0, 0)
         chat_window_layout.setSpacing(0)
 
+
+
+
+
         self.question_label = QLabel()
         self.question_label.setText("")
+        self.question_label.setFixedHeight(20)
         self.question_label.setWordWrap(True)
         self.question_label.setAlignment(Qt.AlignTop)
         self.question_label.setStyleSheet("margin: 0 1px; padding: 0;")  # Set minimal margins and no padding
@@ -29,7 +34,7 @@ class Window(QWidget):
         self.response_label.setWordWrap(True)
         self.response_label.setAlignment(Qt.AlignTop)
         self.response_label.setStyleSheet("margin: 0 1px; padding: 0;")  # Set minimal margins and no padding
-        chat_window_layout.addWidget(self.response_label )
+        chat_window_layout.addWidget(self.response_label)
 
         # Input window layout (25% height)
         input_window_layout = QHBoxLayout()  # Use QHBoxLayout for side-by-side elements

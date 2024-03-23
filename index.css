@@ -1,0 +1,11 @@
+* {
+  background-color: #202020;
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+QWidget#chat-widget {
+  background-color: rgb(255, 255, 0);
+}
+QWidget#sidebar {
+  background-color: rgb(88, 161, 120);
+}
