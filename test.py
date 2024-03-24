@@ -20,10 +20,9 @@ class Window(QWidget):
         sidebar.setAttribute(Qt.WA_StyledBackground, True)
         chat = ChatWidget()
         chat.setAttribute(Qt.WA_StyledBackground, True)
+
         layout.addWidget(sidebar, stretch=1)
-
         layout.addWidget(chat)
-
         self.setLayout(layout)
         self.resize(800, 600)
 
