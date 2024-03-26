@@ -25,6 +25,7 @@ class Window(QWidget):
         layout.addWidget(chat)
         self.setLayout(layout)
         self.resize(800, 600)
+        sidebar.page_content.connect(chat.changePage)
 
 
 if __name__ == "__main__":

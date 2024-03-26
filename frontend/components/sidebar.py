@@ -1,12 +1,16 @@
 import json
 
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QLabel, QWidget, QPushButton, QVBoxLayout
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import QWidget, QPushButton, QVBoxLayout
 
 
 class Sidebar(QWidget):
+    page_content = Signal(str)
+
     def __init__(self):
         super().__init__()
+
+        self.chat_history = []
         self.setObjectName("sidebar")
 
         self.setMaximumWidth(250)
@@ -32,24 +36,24 @@ class Sidebar(QWidget):
         self.setLayout(sidebar_layout)
 
         new_chat_button.clicked.connect(
-            lambda: self.addChatToHistory("New Chat new"))  # Connect button click to lambda function
+            lambda: self.addChatToHistory("New Chat new"))
         self.updateHistoryWidget()
+
+    def newButton(self, text="Button", chat_message=None):
+        if chat_message is None:
+            content = []
+        button = QPushButton(self)
+        button.setText(text)
+        # print idx when button is clicked
+        # button.clicked.connect(lambda x: print("Button clicked: ", idx))
+        button.clicked.connect(lambda x: self.page_content.emit(json.dumps(chat_message)))
+        return button
 
     def loadChatHistory(self):
         try:
             with open(self.history_file, 'r') as file:
                 self.chat_history = json.load(file)
         except FileNotFoundError:
-            self.chat_history = [
-                {
-                    "chat_id": 1,
-                    "message": "Hello",
-                },
-                {
-                    "chat_id": 2,
-                    "message": "World",
-                },
-            ]
             self.saveChatHistory()
 
     def saveChatHistory(self):
@@ -58,7 +62,7 @@ class Sidebar(QWidget):
 
     def addChatToHistory(self, message="template message"):
         print("Adding chat to history")
-        self.chat_history.append({"chat_id": len(self.chat_history) + 1, "message": message})
+        self.chat_history.append({"chat_id": len(self.chat_history) + 1, "message": message, "content": []})
         print(self.chat_history)
         self.updateHistoryWidget()
         self.saveChatHistory()
@@ -69,6 +73,6 @@ class Sidebar(QWidget):
             self.history_widget.layout().itemAt(i).widget().setParent(None)
 
         for chat_message in self.chat_history:
-            label = QLabel(chat_message["message"])
-            self.history_widget.layout().addWidget(label)
+            button = self.newButton(chat_message["message"], chat_message)
+            self.history_widget.layout().addWidget(button)
         self.history_widget.setLayout(self.history_widget.layout())
