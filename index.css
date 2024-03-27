@@ -9,3 +9,12 @@ QWidget#chat-widget {
 QWidget#sidebar {
   background-color: rgb(88, 161, 120);
 }
+QWidget#chat-area {
+  background-color: rgb(88, 95, 161);
+}
+QWidget#response-widget {
+  background-color: rgb(139, 88, 161);
+}
+QWidget#input-widget {
+  background-color: rgb(88, 161, 158);
+}

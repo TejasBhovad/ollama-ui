@@ -1,7 +1,7 @@
 import json
 
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtWidgets import QWidget, QPushButton, QVBoxLayout
+from PySide6.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout
 
 
 class Sidebar(QWidget):
@@ -43,6 +43,7 @@ class Sidebar(QWidget):
         if chat_message is None:
             content = []
         button = QPushButton(self)
+        button.setObjectName("chat-button")
         button.setText(text)
         # print idx when button is clicked
         # button.clicked.connect(lambda x: print("Button clicked: ", idx))
@@ -73,6 +74,33 @@ class Sidebar(QWidget):
             self.history_widget.layout().itemAt(i).widget().setParent(None)
 
         for chat_message in self.chat_history:
-            button = self.newButton(chat_message["message"], chat_message)
-            self.history_widget.layout().addWidget(button)
+            # Create a new widget for each chat message
+            message_widget = QWidget()
+            message_layout = QHBoxLayout()
+            message_widget.setLayout(message_layout)
+            message_widget.setObjectName("message-widget")
+
+            # Create the chat button
+            chat_button = self.newButton(chat_message["message"], chat_message)
+            message_layout.addWidget(chat_button, stretch=2)
+
+            # Create the delete button
+            delete_button = QPushButton("-")
+            delete_button.setObjectName("delete-button")
+            delete_button.setMaximumWidth(24)
+            delete_button.clicked.connect(lambda: self.deleteChatMessage(chat_message))
+            message_layout.addWidget(delete_button, stretch=1)
+
+            # Add the message widget to the history widget
+            self.history_widget.layout().addWidget(message_widget)
+
         self.history_widget.setLayout(self.history_widget.layout())
+
+    def deleteChatMessage(self, chat_message):
+        # Remove the chat message from the chat history
+        self.chat_history.remove(chat_message)
+        # remove the chat message from json file
+        self.saveChatHistory()
+
+        # Update the history widget
+        self.updateHistoryWidget()
