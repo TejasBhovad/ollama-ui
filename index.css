@@ -18,3 +18,7 @@ QWidget#response-widget {
 QWidget#input-widget {
   background-color: rgb(88, 161, 158);
 }
+QPushButton #chat-button {
+  background-color: rgb(88, 161, 120);
+  text-align: left;
+}

@@ -1,8 +1,9 @@
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPalette
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QApplication, QSpacerItem, QSizePolicy
 import json
 from PySide6.QtWidgets import QLineEdit, QPushButton, QHBoxLayout
+
+from backend.main import get_response
 
 
 def clear_layout(layout):
@@ -10,6 +11,31 @@ def clear_layout(layout):
         child = layout.takeAt(0)
         if child.widget():
             child.widget().deleteLater()
+
+
+def save_chat_history(chat_history):
+    with open('chat_history.json', 'w') as file:
+        json.dump(chat_history, file, indent=4)
+
+
+def get_chat_history():
+    try:
+        with open('chat_history.json', 'r') as file:
+            chat_history = json.load(file)
+    except FileNotFoundError:
+        chat_history = []
+    return chat_history
+
+
+def update_chat_history(prompt, response):
+    chat_history = get_chat_history()
+    if not chat_history or 'content' not in chat_history[-1]:
+        chat_history.append({"chat_id": len(chat_history) + 1, "message": prompt, "content": []})
+    elif not chat_history[-1]['content']:
+        chat_history[-1]['message'] = prompt
+    # Append the prompt and response as a dictionary to the 'content' list of the last chat
+    chat_history[-1]['content'].append({"prompt": prompt, "response": response})
+    save_chat_history(chat_history)
 
 
 class ChatWidget(QWidget):
@@ -48,12 +74,19 @@ class ChatWidget(QWidget):
         self.input_widget.setEnabled(True)
 
     def prompt_widget(self, prompt):
+        spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.response_layout.addItem(spacer)  # Add spacer at the beginning of the layout
+
         prompt_label = QLabel(prompt)
+        prompt_label.setObjectName('prompt-label')
+        prompt_label.setWordWrap(True)
         self.response_layout.addWidget(prompt_label)
         self.response_layout.setAlignment(Qt.Alignment.AlignTop)
 
-    def response_widget_method(self, response):  # change this line
+    def response_widget_method(self, response):
         response_label = QLabel(response)
+        response_label.setObjectName('response-label')
+        response_label.setWordWrap(True)
         self.response_layout.addWidget(response_label)
         self.response_layout.setAlignment(Qt.Alignment.AlignTop)
 
@@ -79,7 +112,33 @@ class ChatWidget(QWidget):
     def submit_button_clicked(self):
         input_text = self.get_input()
         print(input_text)
+
+        # Add a new prompt label with the text from the input field
+        prompt_label = QLabel(input_text)
+        prompt_label.setObjectName('prompt-label')
+        prompt_label.setWordWrap(True)
+        prompt_label.adjustSize()
+        self.response_layout.addWidget(prompt_label)
+        self.response_layout.setAlignment(Qt.Alignment.AlignTop)
+
+        # Add a new response label with the text "Answer goes here"
+        response_label = QLabel()
+        response_label.setObjectName('response-label')
+        response_label.setWordWrap(True)
+        self.response_layout.addWidget(response_label)
+        self.response_layout.setAlignment(Qt.Alignment.AlignTop)
+
+        for chunk in get_response(input_text):
+            response_label.setText(response_label.text() + chunk)
+            QApplication.processEvents()
+            # Force UI update after each chunk append
+            # after each response append \n to the response label
+        response_label.setText(response_label.text() + "\n")
+        response_label.adjustSize()
+        # after response complete update the chat history
+        update_chat_history(input_text, response_label.text())
         self.clear_input()
+
     #      get res stream it in new res label
     #      after stream save the chat history
     #      remove the response widget with streamed response

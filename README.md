@@ -3,15 +3,15 @@ Desktop app created to communicate with ollama model locally
 
 ## Tech Stack
 
-- pyQT
+- PyQT
 - CSS
 
 ## Packages
 
-- PySide6
+- PyQt6
 
 ## Progress
 
-[] Learning PyQT
-
-https://youtu.be/Z1N9JzNax2k?t=7119
+MVP done
+Styling remaining
+Exporting to be done

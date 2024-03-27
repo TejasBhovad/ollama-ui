@@ -1,6 +1,6 @@
 import json
 
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QFileSystemWatcher
 from PySide6.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout
 
 
@@ -19,6 +19,11 @@ class Sidebar(QWidget):
         self.history_file = "chat_history.json"
         self.loadChatHistory()
 
+        # Create a QFileSystemWatcher and add the chat_history file to it
+        self.file_watcher = QFileSystemWatcher()
+        self.file_watcher.addPath(self.history_file)
+        self.file_watcher.fileChanged.connect(self.on_file_changed)
+
         new_chat_button = QPushButton("New Chat")
         new_chat_button.setMaximumWidth(self.maximumWidth())
         new_chat_button.setObjectName("new-chat-button")
@@ -36,8 +41,14 @@ class Sidebar(QWidget):
         self.setLayout(sidebar_layout)
 
         new_chat_button.clicked.connect(
-            lambda: self.addChatToHistory("New Chat new"))
+            lambda: self.addChatToHistory("New Chat Session"))
         self.updateHistoryWidget()
+
+    def on_file_changed(self, path):
+        # When the chat_history file changes, reload the chat history and update the history widget
+        if path == self.history_file:
+            self.loadChatHistory()
+            self.updateHistoryWidget()
 
     def newButton(self, text="Button", chat_message=None):
         if chat_message is None:
@@ -45,6 +56,7 @@ class Sidebar(QWidget):
         button = QPushButton(self)
         button.setObjectName("chat-button")
         button.setText(text)
+        button.setStyleSheet("text-align: left;")
         # print idx when button is clicked
         # button.clicked.connect(lambda x: print("Button clicked: ", idx))
         button.clicked.connect(lambda x: self.page_content.emit(json.dumps(chat_message)))
@@ -82,14 +94,14 @@ class Sidebar(QWidget):
 
             # Create the chat button
             chat_button = self.newButton(chat_message["message"], chat_message)
-            message_layout.addWidget(chat_button, stretch=2)
+            message_layout.addWidget(chat_button, stretch=1)
 
             # Create the delete button
-            delete_button = QPushButton("-")
+            delete_button = QPushButton("x")
             delete_button.setObjectName("delete-button")
             delete_button.setMaximumWidth(24)
             delete_button.clicked.connect(lambda: self.deleteChatMessage(chat_message))
-            message_layout.addWidget(delete_button, stretch=1)
+            message_layout.addWidget(delete_button)
 
             # Add the message widget to the history widget
             self.history_widget.layout().addWidget(message_widget)
