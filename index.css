@@ -1,24 +1,124 @@
-* {
-  background-color: #202020;
+QWidget#window {
+  background-color: #171a21;
   color: white;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 QWidget#chat-widget {
-  background-color: rgb(255, 255, 0);
+  /* background-color: rgb(255, 255, 0); */
 }
 QWidget#sidebar {
-  background-color: rgb(88, 161, 120);
+  border-right: 1px solid rgb(57, 57, 68);
 }
-QWidget#chat-area {
+#message-widget,
+#ClickableWidget {
   background-color: rgb(88, 95, 161);
+  border-radius: 4px;
+  /* set bg opacity to 25% */
+  background-color: rgba(88, 95, 161, 0.1);
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
-QWidget#response-widget {
-  background-color: rgb(139, 88, 161);
+#message-widget:hover,
+#ClickableWidget :hover {
+  background-color: rgb(88, 95, 161);
+  background-color: rgba(88, 95, 161, 0.25);
+}
+
+QWidget#chat-area {
+  /* background-color: rgb(88, 95, 161); */
+}
+QWidget#main-chat-widget {
+  background-color: #171a21;
 }
 QWidget#input-widget {
-  background-color: rgb(88, 161, 158);
+  /* background-color: rgb(88, 161, 158); */
 }
-QPushButton #chat-button {
+/* QPushButton #chat-button {
   background-color: rgb(88, 161, 120);
   text-align: left;
+} */
+QPushButton[objectName="new-chat-button"] {
+  background-color: #9dacff;
+  border-radius: 4px;
+  color: #171a21;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 400;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+QPushButton[objectName="new-chat-button"]:hover {
+  background-color: #919ee9;
+}
+QPushButton[objectName="chat-button"] {
+  background-color: transparent;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+QPushButton[objectName="delete-button"] {
+  background-color: rgba(239, 113, 113, 0.25);
+  padding: 4px;
+  border-radius: 4px;
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+  margin-top: 2px;
+}
+QLabel#history-label {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+}
+QWidget#response-widget {
+  /* background-color: rgb(255, 138, 138); */
+}
+QWidget#prompt-widget {
+  /* background-color: rgb(246, 169, 255); */
+}
+QLabel#response-label {
+  background-color: rgba(88, 95, 161, 0.25);
+  border-radius: 4px;
+  padding-left: 8px;
+  padding-bottom: 10px;
+}
+QLabel#prompt-label {
+  background-color: rgba(88, 95, 161, 0.25);
+  padding-left: 8px;
+  border-radius: 4px;
+  padding-bottom: 10px;
+}
+
+QLineEdit#input-field {
+  background-color: rgba(88, 95, 161, 0.25);
+  border-radius: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 5px;
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+QPushButton#submit-button {
+  background-color: #9dacff;
+  border-radius: 4px;
+  color: #171a21;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 400;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+QPushButton#submit-button:hover {
+  background-color: #7f8ddc;
+}
+QPushButton#submit-button:pressed {
+  background-color: #a7b1ef;
 }

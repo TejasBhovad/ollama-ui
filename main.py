@@ -14,7 +14,7 @@ class Window(QWidget):
         self.setWindowTitle("Ollama UI")
         self.setObjectName("window")
         layout = QHBoxLayout()
-
+        layout.setContentsMargins(0, 0, 0, 0)
         sidebar = Sidebar()
         sidebar.setAttribute(Qt.WA_StyledBackground, True)
         chat = ChatWidget()
