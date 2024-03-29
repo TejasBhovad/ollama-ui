@@ -1,5 +1,9 @@
+import os
 import sys
+
+from PySide6 import QtGui
 from PySide6.QtCore import Qt, QFileSystemWatcher
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout
 from frontend.components.chat_widget import ChatWidget
 from frontend.components.sidebar import Sidebar
@@ -12,6 +16,7 @@ class Window(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Ollama UI")
+        self.setWindowIcon(QIcon('/frontend/logos/icon.ico'))
         self.setObjectName("window")
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -30,8 +35,11 @@ class Window(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    stylesheet = open('index.css').read()
-    app.setStyleSheet(stylesheet)
+    stylesheet_path = os.path.join(os.path.dirname(__file__), 'index.css')
+    if os.path.exists(stylesheet_path):
+        with open(stylesheet_path, 'r') as file:
+            stylesheet = file.read()
+            app.setStyleSheet(stylesheet)
 
     if DEV_MODE:
         watcher = QFileSystemWatcher()

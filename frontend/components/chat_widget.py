@@ -25,7 +25,6 @@ class GrowingTextEdit(QTextEdit):
         self.setMaximumHeight(contents_height)  # Adjust the height based on the contents and add padding
 
 
-
 def clear_layout(layout):
     while layout.count():
         child = layout.takeAt(0)
@@ -176,21 +175,23 @@ class ChatWidget(QWidget):
 
         # Add a new prompt label with the text from the input field
         prompt_layout = QHBoxLayout()
-        prompt_layout.setContentsMargins(0, 10, 0, 0)
+        prompt_layout.setContentsMargins(0, 0, 0, 0)
         prompt_icon = QLabel()
         icon = QIcon(user_icon)  # Create QIcon from the SVG file
         pixmap = icon.pixmap(20, 20)  # Create QPixmap from QIcon
         prompt_icon.setPixmap(pixmap)  # Set QPixmap as the icon for QLabel
         prompt_icon.setFixedSize(20, 20)  # Set a fixed size for the icon
-        prompt_label = QTextEdit(input_text)
+
+        prompt_label = GrowingTextEdit(input_text)
         prompt_label.setObjectName('prompt-label')
         prompt_label.setReadOnly(True)
-        prompt_label.setContentsMargins(6, 1, 2, 4)
+
         prompt_layout.addWidget(prompt_icon)
-        prompt_layout.addWidget(prompt_label, stretch=1)  # Set a stretch factor for the prompt
+        prompt_layout.addWidget(prompt_label)  # Set a stretch factor for the prompt
         prompt_layout.setAlignment(Qt.AlignTop)  # Align the layout to the top
         prompt_layout.setAlignment(prompt_icon, Qt.AlignTop)
         prompt_widget = QWidget()
+        prompt_widget.setObjectName('prompt-widget')
         prompt_widget.setLayout(prompt_layout)
         self.response_layout.addWidget(prompt_widget)
         self.response_layout.setAlignment(prompt_widget, Qt.AlignTop)
@@ -203,15 +204,15 @@ class ChatWidget(QWidget):
         pixmap = icon.pixmap(20, 20)  # Create QPixmap from QIcon
         response_icon.setPixmap(pixmap)  # Set QPixmap as the icon for QLabel
         response_icon.setFixedSize(20, 20)  # Set a fixed size for the icon
-        response_label = QTextEdit()
+        response_label = GrowingTextEdit()
         response_label.setObjectName('response-label')
         response_label.setReadOnly(True)
-        response_label.setContentsMargins(6, 1, 2, 4)
         response_layout.addWidget(response_icon)
-        response_layout.addWidget(response_label, stretch=1)  # Set a stretch factor for the response
+        response_layout.addWidget(response_label)  # Set a stretch factor for the response
         response_layout.setAlignment(Qt.AlignTop)  # Align the layout to the top
         response_layout.setAlignment(response_icon, Qt.AlignTop)
         response_widget = QWidget()
+        response_widget.setObjectName('response-widget')
         response_widget.setLayout(response_layout)
         self.response_layout.addWidget(response_widget)
         self.response_layout.setAlignment(response_widget, Qt.AlignTop)
