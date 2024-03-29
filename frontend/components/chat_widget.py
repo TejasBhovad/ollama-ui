@@ -22,7 +22,7 @@ class GrowingTextEdit(QTextEdit):
     def resizeEvent(self, event):
         super(GrowingTextEdit, self).resizeEvent(event)
         contents_height = self.document().size().height()
-        self.setMinimumHeight(contents_height)  # Adjust the height based on the contents
+        self.setMaximumHeight(contents_height)  # Adjust the height based on the contents and add padding
 
 
 
