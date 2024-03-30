@@ -19,6 +19,11 @@ Exporting to be done
 ## Build Command
     
 ```bash
-pyinstaller --onefile main.py --add-data "frontend/logos:frontend/logos" --add-data "frontend/components:frontend/components" --add-data "index.css:."
+pyinstaller --name="Ollama UI" --windowed --add-data "index.css:." --icon=icons/ai_icon.png main.py --onefile
 ```
 > Modify to add SVGs
+
+## Adding SVGs
+https://doc.qt.io/qtforpython-6/tutorials/basictutorial/qrcfiles.html
+remove ui tag
+https://doc.qt.io/qt-5/resources.html

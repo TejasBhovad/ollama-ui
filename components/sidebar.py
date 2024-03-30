@@ -1,8 +1,7 @@
 import json
-
+import rc_icons
 from PySide6.QtCore import Qt, Signal, QFileSystemWatcher, QSize
 from PySide6.QtGui import QCursor, QIcon
-from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel
 
 
@@ -41,7 +40,7 @@ class Sidebar(QWidget):
         new_chat_button.setObjectName("new-chat-button")
         new_chat_button.setCursor(QCursor(Qt.PointingHandCursor))
         new_chat_button.setAttribute(Qt.WA_StyledBackground, True)
-        plus_icon = QIcon("frontend/logos/plus.svg")  # Path to the icon file
+        plus_icon = QIcon(":/icons/plus.svg")  # Path to the icon file
         new_chat_button.setIcon(plus_icon)
         new_chat_button.setIconSize(QSize(14, 14))
         # align center
@@ -104,17 +103,17 @@ class Sidebar(QWidget):
             json.dump(self.chat_history, file)
 
     def addChatToHistory(self, message="template message"):
-        print("Adding chat to history")
+        # print("Adding chat to history")
         self.chat_history.append({"chat_id": len(self.chat_history) + 1, "message": message, "content": []})
-        print(self.chat_history)
+        # print(self.chat_history)
         self.updateHistoryWidget()
         self.saveChatHistory()
 
     def addChatToHistoryAndEmitSignal(self, message="template message"):
-        print("Adding chat to history")
+        # print("Adding chat to history")
         new_chat = {"chat_id": len(self.chat_history) + 1, "message": message, "content": []}
         self.chat_history.append(new_chat)
-        print(self.chat_history)
+        # print(self.chat_history)
         self.updateHistoryWidget()
         self.saveChatHistory()
         self.page_content.emit(json.dumps(new_chat))  # Emit the signal with the new chat session
@@ -144,7 +143,7 @@ class Sidebar(QWidget):
             # Create the delete button
             delete_button = QPushButton("")
             delete_button.setCursor(QCursor(Qt.PointingHandCursor))
-            delete_button.setIcon(QIcon("frontend/logos/trash.svg"))
+            delete_button.setIcon(QIcon(":/icons/trash.svg"))
             delete_button.setObjectName("delete-button")
             delete_button.setMaximumWidth(24)
             delete_button.clicked.connect(lambda: self.deleteChatMessage(chat_message))
@@ -165,5 +164,5 @@ class Sidebar(QWidget):
         self.updateHistoryWidget()
 
     def sendSignal(self, chat_message):
-        print("Sending signal", chat_message)
+        # print("Sending signal", chat_message)
         self.page_content.emit(json.dumps(chat_message))

@@ -1,14 +1,15 @@
-from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QIcon, QTextOption
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QApplication, QSpacerItem, QSizePolicy, \
-    QTextEdit
 import json
+import rc_icons
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QLineEdit, QPushButton, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QApplication, QSizePolicy, \
+    QTextEdit
 
 from backend.main import get_response
-
-ai_icon = "frontend/logos/ai_icon.png"
-user_icon = "frontend/logos/user_icon.svg"
+#
+# ai_icon = "icons/ai_icon.png"
+# user_icon = "icons/user_icon.svg"
 
 
 class GrowingTextEdit(QTextEdit):
@@ -99,7 +100,7 @@ class ChatWidget(QWidget):
         prompt_layout = QHBoxLayout()
         prompt_layout.setContentsMargins(0, 0, 0, 0)
         prompt_icon = QLabel()
-        icon = QIcon(user_icon)  # Create QIcon from the SVG file
+        icon = QIcon(':/icons/user_icon.svg')  # Create QIcon from the SVG file
         pixmap = icon.pixmap(20, 20)  # Create QPixmap from QIcon
         prompt_icon.setPixmap(pixmap)  # Set QPixmap as the icon for QLabel
         prompt_icon.setFixedSize(20, 20)  # Set a fixed size for the icon
@@ -123,7 +124,7 @@ class ChatWidget(QWidget):
         response_layout = QHBoxLayout()
         response_layout.setContentsMargins(0, 0, 0, 0)
         response_icon = QLabel()
-        icon = QIcon(ai_icon)  # Create QIcon from the SVG file
+        icon = QIcon(':/icons/ai_icon.png')  # Create QIcon from the SVG file
         pixmap = icon.pixmap(20, 20)  # Create QPixmap from QIcon
         response_icon.setPixmap(pixmap)  # Set QPixmap as the icon for QLabel
         response_icon.setFixedSize(20, 20)  # Set a fixed size for the icon
@@ -149,7 +150,7 @@ class ChatWidget(QWidget):
 
         submit_button = QPushButton("")
         # Set the icon for the submit button
-        icon = QIcon("frontend/logos/send.svg")  # Path to the icon file
+        icon = QIcon(":icons/send.svg")  # Path to the icon file
         submit_button.setIcon(icon)
         submit_button.setObjectName('submit-button')
         submit_button.setCursor(Qt.PointingHandCursor)
@@ -171,13 +172,13 @@ class ChatWidget(QWidget):
 
     def submit_button_clicked(self):
         input_text = self.get_input()
-        print(input_text)
+        # print(input_text)
 
         # Add a new prompt label with the text from the input field
         prompt_layout = QHBoxLayout()
         prompt_layout.setContentsMargins(0, 0, 0, 0)
         prompt_icon = QLabel()
-        icon = QIcon(user_icon)  # Create QIcon from the SVG file
+        icon = QIcon(':/icons/user_icon.svg')  # Create QIcon from the SVG file
         pixmap = icon.pixmap(20, 20)  # Create QPixmap from QIcon
         prompt_icon.setPixmap(pixmap)  # Set QPixmap as the icon for QLabel
         prompt_icon.setFixedSize(20, 20)  # Set a fixed size for the icon
@@ -200,7 +201,7 @@ class ChatWidget(QWidget):
         response_layout = QHBoxLayout()
         response_layout.setContentsMargins(0, 0, 0, 0)
         response_icon = QLabel()
-        icon = QIcon(ai_icon)  # Create QIcon from the SVG file
+        icon = QIcon(':/icons/ai_icon.png')  # Create QIcon from the SVG file
         pixmap = icon.pixmap(20, 20)  # Create QPixmap from QIcon
         response_icon.setPixmap(pixmap)  # Set QPixmap as the icon for QLabel
         response_icon.setFixedSize(20, 20)  # Set a fixed size for the icon
