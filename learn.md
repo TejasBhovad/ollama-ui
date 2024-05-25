@@ -1,0 +1,1 @@
+Building a AI chat application using Python to communicate with local models like Ollama UI.
