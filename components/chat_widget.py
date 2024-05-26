@@ -23,7 +23,7 @@ class GrowingTextEdit(QTextEdit):
     def resizeEvent(self, event):
         super(GrowingTextEdit, self).resizeEvent(event)
         contents_height = self.document().size().height()
-        self.setMaximumHeight(contents_height)  # Adjust the height based on the contents and add padding
+        self.setFixedHeight(contents_height)  # Adjust the height based on the contents and add padding
 
 
 def clear_layout(layout):
@@ -223,10 +223,14 @@ class ChatWidget(QWidget):
             lines[0] = lines[0].lstrip('\n')  # Remove leading newline character from the first line
             chunk = '\n'.join(lines)  # Join the lines back together
             response_label.setText(response_label.toPlainText() + chunk)  # Append the chunk to the response text
+            contents_height = response_label.document().size().height()
+            response_label.setFixedHeight(contents_height+48)  # Adjust the height based on the contents and add padding
             QApplication.processEvents()
             # Force UI update after each chunk append
             # after each response append \n to the response label
-        response_label.setText(response_label.toPlainText() + "\n")
+        response_label.setText(response_label.toPlainText() )
+        contents_height = response_label.document().size().height()
+        response_label.setFixedHeight(contents_height+48)
         # after response complete update the chat history
         update_chat_history(input_text, response_label.toPlainText())
         self.clear_input()
