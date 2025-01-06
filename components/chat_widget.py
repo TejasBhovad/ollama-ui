@@ -154,7 +154,9 @@ class ChatWidget(QWidget):
         submit_button.setIcon(icon)
         submit_button.setObjectName('submit-button')
         submit_button.setCursor(Qt.PointingHandCursor)
-
+        # Connect signals
+        submit_button.clicked.connect(self.submit_button_clicked)
+        input_field.returnPressed.connect(self.submit_button_clicked)  # Submit on Enter key
         submit_button.clicked.connect(self.submit_button_clicked)
         input_layout.addWidget(input_field)
         input_layout.addWidget(submit_button)
